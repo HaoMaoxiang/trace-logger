@@ -8,7 +8,7 @@ import java.time.Instant;
 
 /**
  * @author HaoMaoxiang@126.com
- * @date 2020/2/21
+ * @since 2020/2/21
  */
 public class LogMessage {
 
@@ -69,6 +69,7 @@ public class LogMessage {
         String traceId = traceContext.get().getTraceId();
         if (traceId == null) {
             traceId = generateTraceId();
+            traceContext.get().setTraceId(traceId);
         }
         return traceId;
     }
@@ -131,7 +132,7 @@ public class LogMessage {
     /**
      * @return 5位当前进程号
      */
-    public static String getProcessId() {
+    private static String getProcessId() {
         RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
         return String.format("%05d", Integer.parseInt(runtime.getName().split("@")[0]));
     }

@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import tech.mervyn.logger.LogMessage;
 import tech.mervyn.logger.LogUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
  * @author HaoMaoxiang@126.com
- * @date 2020/2/21
+ * @since 2020/2/21
  */
 @Aspect
 @Component
@@ -46,17 +46,19 @@ public class WebLogAop {
 
         // 请求进入日志
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-        String uri = request.getRequestURI();
         String host = request.getRemoteHost();
+        String method = request.getMethod();
+        String uri = request.getRequestURI();
         Map<String, String[]> args = request.getParameterMap();
-
-        log.info(LogUtil.logMsg("_com_request_in", "host", host, "uri", uri, "args", args));
+        log.info(LogUtil.logMsg("_com_request_in", "host", host, "method", method,
+                "uri", uri, "args", args));
 
         Object proceed = point.proceed();
 
         // 请求离开日志
-        log.info(LogUtil.logMsg("_com_request_success", "host", host, "uri", uri,
-                "response", proceed, "proc_time", LogUtil.procTime(start)));
+        log.info(LogUtil.logMsg("_com_request_out", "host", host, "method", method,
+                "uri", uri, "response", proceed, "proc_time", LogUtil.procTime(start)));
+        LogMessage.remove();
         return proceed;
     }
 
@@ -68,7 +70,7 @@ public class WebLogAop {
         String methodName = methodSignature.getMethod().getName();
         Object[] args = point.getArgs();
         log.info(LogUtil.logMsg("_com_service_in", "class_name", className, "method_name", methodName,
-                "args", Arrays.deepToString(args)));
+                "args", args));
         Object proceed = point.proceed();
         log.info(LogUtil.logMsg("_com_service_out", "class_name", className, "method_name", methodName,
                 "return", proceed, "proc_time", LogUtil.procTime(start)));

@@ -2,7 +2,7 @@ package tech.mervyn.logger;
 
 /**
  * @author HaoMaoxiang@126.com
- * @date 2020/2/21
+ * @since 2020/2/21
  */
 public class TraceContext {
 

@@ -1,5 +1,6 @@
 package tech.mervyn.logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author HaoMaoxiang@126.com
- * @date 2020/2/21
+ * @since 2020/2/21
  */
 public class LogUtil {
 
@@ -29,7 +30,14 @@ public class LogUtil {
         } else {
             for (int i = 0; i < len; i+=2) {
                 try {
-                    logMessage.add(String.valueOf(keysAndValues[i]), keysAndValues[i + 1]);
+                    String key = String.valueOf(keysAndValues[i]);
+                    String value;
+                    if (keysAndValues[i + 1] instanceof String) {
+                        value = String.valueOf(keysAndValues[i + 1]);
+                    } else {
+                        value = new ObjectMapper().writeValueAsString(keysAndValues[i + 1]);
+                    }
+                    logMessage.add(key, value);
                 } catch (Exception ex) {
                     log.error("exception in the function log().", ex);
                 }
