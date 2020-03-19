@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "name": "trace-logger.black-list",
+      "type": "java.util.List",
+      "defaultValue": null,
+      "description": "the log blacklist."
+    },
+    {
+      "name": "trace-logger.controller-log",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "controller log switch."
+    },
+    {
+      "name": "trace-logger.service-log",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "service log switch."
+    },
+    {
+      "name": "trace-logger.sql-log",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "sql log switch."
+    },
+    {
+      "name": "trace-logger.sql-params-log",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "sql params log switch."
+    }
+  ]
+}

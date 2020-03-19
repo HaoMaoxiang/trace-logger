@@ -25,6 +25,7 @@ LogMessage.remove() | 清除ThreadLocal中存放的TraceId以及SpanId信息
 > 
 > **使用方法**: 在SpringBoot启动类上加上注解``@ComponentScan(basePackages = {"xxx.xxx", "tech.mervyn"})``，其中``xxx.xxx``是你项目中要自动扫描所在的包目录
 >
+
 > 日志格式为：
 
 ```log
@@ -35,12 +36,28 @@ LogMessage.remove() | 清除ThreadLocal中存放的TraceId以及SpanId信息
 
 ```
 
+> 需要在项目配置文件中添加下列配置：
+
+```yml
+trace-logger:
+  # 日志中敏感信息过滤，黑名单列表
+  black-list: response, name, age
+  # 是否打印controller日志
+  controller-log: true
+  # 是否打印service日志
+  service-log: true
+  # 是否打印sql日志
+  sql-log: true
+  # sql日志中是否打印出参数
+  sql-params: true
+```
+
 ## 3. Maven引用
 ```xml
 <dependency>
     <groupId>tech.mervyn</groupId>
     <artifactId>trace-logger</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>tech.mervyn</groupId>
 	<artifactId>trace-logger</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>trace-logger-project</name>
 	<description>trace-logger-project</description>
 
@@ -72,6 +72,13 @@
 		</dependency>
 		<!-- spring-boot end -->
 
+		<!-- MyBatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.4</version>
+		</dependency>
+
 		<!-- spring-boot-test start -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -105,7 +112,7 @@
 					<serverId>sonatype-nexus-staging</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 					<!-- 如果希望发布后自动执行close和release操作，此处可以调整为true -->
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
 

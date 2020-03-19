@@ -1,5 +1,7 @@
 package tech.mervyn.logger;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.InetAddress;
@@ -10,6 +12,7 @@ import java.time.Instant;
  * @author HaoMaoxiang@126.com
  * @since 2020/2/21
  */
+@Component
 public class LogMessage {
 
     private final static String DEFAULT_SPAN_ID = "span-id.0";
@@ -76,12 +79,13 @@ public class LogMessage {
 
     /**
      * <p>
-     *     生成64位traceId，规则是 服务器 IP + 产生ID时的时间 + 自增序列 + 当前进程号
-     *     IP 8位：10.209.52.143 -> 0ad1348f
-     *     产生ID时的时间 13位： 毫秒时间戳 -> 1403169275002
-     *     自增序列 4位： 1000-9999循环
-     *     当前进程号 5位： PID
+     * 生成64位traceId，规则是 服务器 IP + 产生ID时的时间 + 自增序列 + 当前进程号
+     * IP 8位：10.209.52.143 -> 0ad1348f
+     * 产生ID时的时间 13位： 毫秒时间戳 -> 1403169275002
+     * 自增序列 4位： 1000-9999循环
+     * 当前进程号 5位： PID
      * </p>
+     *
      * @return 0ad1348f1403169275002100056696
      */
     public static String generateTraceId() {
@@ -104,6 +108,7 @@ public class LogMessage {
 
     /**
      * <p>IP转换</p>
+     *
      * @param ip 10.209.52.143
      * @return 0ad1348f
      */
@@ -118,6 +123,7 @@ public class LogMessage {
 
     /**
      * <p>使得自增序列在1000-9999之间循环</p>
+     *
      * @return 自增序列号
      */
     private static int getAutoIncreaseNumber() {

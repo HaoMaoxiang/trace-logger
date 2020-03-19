@@ -13,9 +13,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import tech.mervyn.logger.LogMessage;
 import tech.mervyn.logger.LogUtil;
+import tech.mervyn.properties.TraceLogProperty;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -28,19 +31,24 @@ public class WebLogAop {
 
     private final static Logger log = LoggerFactory.getLogger(WebLogAop.class);
 
+    @Resource
+    private TraceLogProperty logProperty;
+
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)|| " +
             "@within(org.springframework.stereotype.Controller)")
-    public void controllerAdvice() {}
+    public void controllerAdvice() {
+    }
 
     @Pointcut("@within(org.springframework.stereotype.Service) || " +
             "target(com.baomidou.mybatisplus.extension.service.impl.ServiceImpl)")
-    public void serviceAdvice() {}
+    public void serviceAdvice() {
+    }
 
     @Around("controllerAdvice()")
     public Object controllerAroundAdvice(ProceedingJoinPoint point) throws Throwable {
         LocalDateTime start = LocalDateTime.now();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        if (requestAttributes == null) {
+        if (!logProperty.getControllerLog() || requestAttributes == null) {
             return point.proceed();
         }
 
@@ -64,6 +72,11 @@ public class WebLogAop {
 
     @Around("serviceAdvice()")
     public Object serviceAroundAdvice(ProceedingJoinPoint point) throws Throwable {
+
+        if (!logProperty.getServiceLog()) {
+            return point.proceed();
+        }
+
         LocalDateTime start = LocalDateTime.now();
         String className = point.getTarget().getClass().getName();
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
@@ -77,9 +90,5 @@ public class WebLogAop {
         return proceed;
 
     }
-
-
-
-
 
 }
